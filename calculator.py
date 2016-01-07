@@ -12,66 +12,74 @@ from arithmetic import *
 # Your code goes here
 while True:
     #take in and parse user input
+    input = raw_input(">> ")
+    tokens = input.split(" ")
+    command = tokens[0]
+    number_list = tokens[1:]
+
+    #quit command
+    if tokens[0] == 'q' or tokens[0]=="Q":
+        break
+
+    # float_list = []
+    # for item in number_list:
+    #     item = float(item)
+    #     float_list.append(item)
+
+    #checks input for valid numbers    
     try:
-        input = raw_input("Enter a value: ")
-        tokens = input.split(" ")
-        if tokens[0] == 'q' or tokens[0]=="Q":
-            break
+        number_list = [int(i) for i in number_list]
 
-        if len(tokens) < 2:
-            command = tokens[0]
-            print "You have too few numbers in a command." 
-
-
-        if len(tokens) == 3:
-            command = tokens[0]
-            num1 = int(tokens[1])
-            num2 = int(tokens[2])
-        elif len(tokens) == 2:
-            two_items = True
-            command = tokens[0]
-            num1 = int(tokens[1])
-                
     except ValueError:
         print "TypeError, This isn't a number, please enter a valid number"
-        # raise Exception("TypeError, This isn't a number, please enter a valid number")
-        
+
+    try:
+        float_list = [float(i) for i in number_list]
+    except ValueError:
+        print "TypeError, This isn't a number, please enter a valid number"
+
     
     #checks input for valid calculator commands    
-    commands_list = ["+", "-", "*", "/", "square", "cube", "pow", "mod"]
-    if command in commands_list:
-        pass
-    
-    else:
-        raise Exception("That was not a valid calculator command. Please try again.")
-        continue
+    try:        
+        commands_list = ["+", "-", "*", "/", "square", "cube", "pow", "mod"]
+        if command in commands_list:
+            pass    
+    except:
+        print Exception("That was not a valid calculator command. Please try again.")
+        
 
-    #calculates operations for two numbers
-    if len(tokens) == 3:    
-        if command == '+':
-            print add(int(num1), int(num2))
-        elif command == '-':
-            print subtract(int(num1), int(num2))
-        elif command == "*":
-            print multiply(int(num1), int(num2))
-        elif command == '/':
-            print divide(float(num1), float(num2))
-        elif command == 'pow':
-            print power(float(num1), float(num2)) 
-        elif command == 'mod':
-            print mod(int(num1), int(num2))
+    #calculates operations        
+    if command == '+':
+        result = reduce(lambda num1, num2: add(num1, num2), number_list) 
+        print result
 
-    #operations for one number
-    if len(tokens) == 2:
-        if command == "square":
-            print square(int(num1))
-        elif command == "cube":
-            print cube(int(num1))
+    elif command == '-':
+        result = reduce(lambda num1, num2: subtract(num1, num2), number_list)
+        print result
+    elif command == "*":
+        result = reduce(lambda num1, num2: multiply(num1, num2), number_list)
+        print result
+    elif command == '/':
+        result = reduce(lambda num1, num2: divide(num1, num2), float_list)
+        print result
 
-    #error message for too many numbers        
-    if len(tokens) > 3:
-        print "You entered too many numbers, please try again."
+    elif command == 'pow':
+        result = reduce(lambda num1, num2: power(num1, num2), float_list)
+        print power(float(num1), float(num2)) 
+    elif command == 'mod':
+        result = reduce(lambda num1, num2: mod(num1, num2), number_list)
+        print result
 
+    #operations for one number *use reduce function to reduce to single value
+    if command == "square":
+        result = reduce(lambda num1, num2: add(num1, num2), number_list)
+        print square(result)
+        
+    elif command == "cube":
+        result = reduce(lambda num1, num2: add(num1, num2), number_list)
+        print cube(result)
+
+ 
     
 # No setup
 # repeat forever:
