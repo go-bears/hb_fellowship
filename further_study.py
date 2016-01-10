@@ -174,8 +174,17 @@ def custom_reverse(input_list):
 
     """
     # end_list = custom_len(input_list)
-    input_list = input_list[::-1]
-
+    
+    length = custom_len(input_list)
+    #input_list =input_list
+    list2 = input_list
+        
+    for i in range(1, length):
+        j = i
+        while j > 0 and list2[j] < list2[j-1]:
+            list2[j], list2[j-1] = list2[j-1], list2[j]
+            j -= 1
+    print list2
 
 def custom_contains(input_list, value):
     """
@@ -192,13 +201,15 @@ def custom_contains(input_list, value):
     True
 
     """
-    # end_list = custom_len(input_list)
-    
-    for item in input_list:  
-        if value == item:          
-            return True
-        else:           
-            return False
+
+    value = set([value])
+    input_list = set(input_list)
+
+    if value & input_list:
+        return True
+    else:
+        return False
+
 
 def custom_equality(some_list, another_list):
     """
@@ -214,15 +225,15 @@ def custom_equality(some_list, another_list):
     False
 
     """
-    list_len1 = custom_len(some_list)
-    list_len2 = custom_len(another_list)
+    some_list = set(enumerate(some_list))
+    another_list = set(enumerate(another_list))
     
-    for index in range(list_len1):
-        for item in range(list_len2):  
-            if some_list[index] == another_list[item]:          
-                return True
-            else:
-                return False
+    if some_list - another_list:
+        return False
+    else:
+        return True
+    
+
 
     
 
